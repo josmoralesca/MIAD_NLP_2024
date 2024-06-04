@@ -11,6 +11,7 @@ import re
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import ToktokTokenizer
+from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 tokenizer = ToktokTokenizer() 
@@ -54,7 +55,7 @@ def tokenize(texto):
     stems = stem_palabras(tokens)
     return stems
 
-# Definición de tranformacion del texto
+#Definición de tranformacion del texto
 dataTraining = pd.read_csv('https://github.com/albahnsen/MIAD_ML_and_NLP/raw/main/datasets/dataTraining.zip', encoding='UTF-8', index_col=0)
 vect = TfidfVectorizer(tokenizer=tokenize,sublinear_tf=True,max_features=15000)
 X_dtm = vect.fit_transform(dataTraining['plot']).toarray()
@@ -62,6 +63,7 @@ X_dtm = vect.fit_transform(dataTraining['plot']).toarray()
 def predict_genero(url):
 
     lr_1 = joblib.load(os.path.dirname(__file__) + '/pred_genres_text_RL.pkl') 
+    #vect = joblib.load(os.path.dirname(__file__) + '/pred_genres_vect.pkl') 
 
     url_ = pd.DataFrame([url], columns=['plot'])
 
